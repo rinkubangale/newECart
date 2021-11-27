@@ -31,7 +31,7 @@ export default function LinkForm() {
     let newTime = data.time;
     if (newTime === checkTime) {
       console.log(newTime, checkTime);
-      window.location.replace("https://rinku-bangale.vercel.app/");
+      window.location.replace(data.link);
     }
     setTimeout(handleSubmit, 10000);
   };
