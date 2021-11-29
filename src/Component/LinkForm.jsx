@@ -21,19 +21,24 @@ export default function LinkForm() {
   const [data, setData] = useState(initData);
   // const [click, setClick] = useState(false);
 
-  const handleSubmit = () => {
+  const handleSubmit = (data) => {
     let time = new Date();
+    let setTime;
     let realTime = time.toLocaleTimeString().split(":").join(" ").split(" ");
     if (realTime[3] === "PM") {
-      realTime[0] = +realTime[0] + 12;
+      realTime[0] = +realTime[0] - 12;
     }
-    let checkTime = realTime.slice(0, 2).join(":");
+    let checkTime = realTime.slice(0, 2);
+    checkTime[0] = checkTime[0].length === 1 && `${"0" + checkTime[0]}`;
+    checkTime = checkTime.join(":");
     let newTime = data.time;
     if (newTime === checkTime) {
       console.log(newTime, checkTime);
+      setTime && clearTimeout(setTime);
       window.location.replace(data.link);
     }
-    setTimeout(handleSubmit, 10000);
+    console.log(newTime, checkTime);
+    setTime = setTimeout(handleSubmit, 10000);
   };
 
   const handleChange = (e) => {
@@ -58,7 +63,11 @@ export default function LinkForm() {
           name="time"
           onChange={handleChange}
         />
-        <Button variant="outlined" color="success" onClick={handleSubmit}>
+        <Button
+          variant="outlined"
+          color="success"
+          onClick={() => handleSubmit(data)}
+        >
           Submit
         </Button>
       </div>
